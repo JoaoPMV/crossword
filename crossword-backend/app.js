@@ -15,7 +15,7 @@ app.use(express.json());
 // Middleware CORS (Permite requisições do frontend)
 app.use(
   cors({
-    origin: ["http://localhost:3000", "crossword-kappa.vercel.app"],
+    origin: ["http://localhost:3000", "https://crossword-kappa.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
