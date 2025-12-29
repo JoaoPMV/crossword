@@ -1,0 +1,97 @@
+
+
+## ✨ Funcionalidades do Sistema
+
+- 🧩 Palavras cruzadas dinâmicas:
+  - Diferentes temas e níveis de dificuldade.
+  - Novos níveis podem ser facilmente adicionados via o backend.
+
+- 🔒 Autenticação de usuários:
+  - Sistema seguro de login e registro.
+  - Criptografia de senhas para proteção dos dados.
+
+- 📊 Armazenamento de progresso:
+  - Os jogos são salvos no banco de dados para continuidade.
+  - Índices de performance para acompanhar as estatísticas dos usuários.
+
+- 🖥️ **Frontend reativo:**
+  - Navegação fluida entre páginas com **React Router DOM**.
+  - Interface responsiva e estilizada com **Bootstrap 5**.
+
+- 💾 **Backend robusto:**
+  - Banco de dados **MongoDB** para armazenar níveis e estatísticas.
+  - APIs construídas com **Node.js + Express** para servir dados dinamicamente.
+
+---
+
+## 🚀 Tecnologias Usadas
+
+### **Frontend**
+- ⚛️ **React 19**: Biblioteca para construção de interfaces de usuário.
+- ⚙️ **Redux Toolkit**: Para gerenciamento de estado global.
+- 🧭 **React Router DOM**: Navegação entre páginas e gerenciamento de rotas.
+- 💅 **Bootstrap 5**: Estilização responsiva e moderna.
+- ⚡ **Vite**: Ferramenta de build rápida para desenvolvimento e produção.
+
+
+## ⚙️ Como rodar o projeto
+
+### **Requisitos**
+- Node.js versão 16 ou superior
+- MongoDB instalado ou serviço em nuvem
+
+### **Passos**
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/crossword-system.git
+   cd crossword-system
+   ```
+
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+3. Configure o banco de dados:
+   - Crie um banco no MongoDB e atualize a variável de ambiente no arquivo `.env` com a string de conexão:
+     ```
+     MONGO_URI=mongodb+srv://usuario:senha@cluster.mongodb.net/crossword-system
+     ```
+
+4. Em seguida, execute o backend:
+   ```bash
+   npm start
+   ```
+
+5. Execute o frontend:
+   ```bash
+   npm run dev
+   ```
+
+6. Abra o navegador em:
+   - [http://localhost:3000](http://localhost:3000) para acessar o frontend.
+
+---
+
+## 📂 Estrutura do Projeto
+
+```
+├── backend/                 # Backend (APIs, banco de dados)
+│   ├── models/              # Modelos do MongoDB
+│   ├── routes/              # Rotas de autenticação, níveis etc.
+│   ├── controllers/         # Controladores das rotas
+│   └── server.js            # Inicialização do servidor Express
+├── frontend/                # Frontend (React + Vite)
+│   ├── components/          # Componentes React
+│   ├── pages/               # Páginas do sistema
+│   ├── store/               # Gerenciamento de estado com Redux Toolkit
+│   └── App.jsx              # Componente raiz
+├── package.json             # Configurações de dependências
+└── .env                     # Variáveis de ambiente
+```
+
+---
+
+## 📜 Licença
+
+Este projeto está licenciado sob a [MIT License](https://opensource.org/licenses/MIT).

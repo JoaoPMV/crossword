@@ -1,0 +1,95 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container-login-register {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 10vh 1fr 10vh;
+  width: 100%;
+  height: 100vh;
+
+}
+
+
+
+.main-login-register {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box-login-register {
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid gray;
+  box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
+}
+
+.footer-crossword {
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+  background-color: blue;
+  height: 10vh;
+
+}
+
+.main-login-register form div {
+  margin-bottom: 15px;
+}
+
+.main-login-register form input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+
+.register-name {
+  margin-bottom: 15px;
+}
+
+.button-login-register {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.login-container form input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+
+}
+
+.anchor-register {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.anchor-register:hover {
+  color: rgb(17, 17, 163);
+}
+
+.error-message {
+  height: 1.5rem;
+  /* Reservar espaço fixo para a mensagem */
+  color: red;
+  /* Cor do texto */
+  font-size: 0.9rem;
+  /* Tamanho do texto */
+  margin-top: 0.5rem;
+  /* Espaçamento acima */
+}
+
+.error-message span {
+  display: block;
+}
