@@ -32,12 +32,8 @@ class UserService {
   async authenticateUser(email, password) {
     try {
       const user = await User.findOne({ email });
-      if (!user) {
-        throw new Error("Usuário ou senha inválidos");
-      }
 
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
+      if (!user || !(await bcrypt.compare(password, user.password))) {
         throw new Error("Usuário ou senha inválidos");
       }
 
@@ -49,7 +45,7 @@ class UserService {
 
       return { user, token };
     } catch (error) {
-      throw new Error("Erro ao autenticar usuário: " + error.message);
+      throw new Error("Usuário ou senha inválidos");
     }
   }
 }

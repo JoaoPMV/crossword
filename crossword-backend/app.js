@@ -18,9 +18,10 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
-      "http://localhost:5173",
       "https://crossword-kappa.vercel.app",
+      "https://crossword-gi76wg7w6-joaopmvs-projects.vercel.app",
+      "http://localhost:5173",
+      "http://localhost:3000",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
