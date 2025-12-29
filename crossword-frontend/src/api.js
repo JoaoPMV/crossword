@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 // Função para registrar um usuário
 export const registerUser = async (formData) => {
