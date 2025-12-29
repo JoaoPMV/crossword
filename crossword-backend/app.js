@@ -9,7 +9,7 @@ const gamesRoutes = require("./routes/gamesRoutes");
 const progressRoutes = require("./routes/progressRoutes");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware para processar JSON
 app.use(express.json());
@@ -17,8 +17,13 @@ app.use(express.json());
 // Middleware CORS (Permite requisições do frontend)
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://crossword-kappa.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://crossword-kappa.vercel.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
