@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api";
 import { useAuth } from "../context/authContext"; // Importa o hook
+import HeaderCrossword from "../components//header";
+import FooterCrossword from "../components/footer";
 import "./pages.css";
 
 const Login = () => {
@@ -46,18 +48,17 @@ const Login = () => {
   };
 
   return (
-    <div className="container-login-register">
-      <header className="header-crossword"></header>
-      <div className="main-login-register">
-        <div className="box-login-register">
-          <h2 className="text-center">Login</h2>
-          {message && <p>{message}</p>}
+    <div>
+      <HeaderCrossword />
+      <div className="container-login-register">
+        <div className="main-login-register">
+          <p className="error-login">{message}</p>
           <form onSubmit={loginSubmit}>
             <div className="login-email">
-              <label htmlFor="email">Email:</label>
               <input
                 className="login-email-input"
                 type="email"
+                placeholder="Email"
                 id="email"
                 name="email"
                 value={formData.email}
@@ -67,9 +68,9 @@ const Login = () => {
             </div>
 
             <div className="login-password">
-              <label htmlFor="password">Senha:</label>
               <input
                 type="password"
+                placeholder="Password"
                 id="password"
                 name="password"
                 value={formData.password}
@@ -81,22 +82,21 @@ const Login = () => {
 
             <div>
               <button type="submit" className="button-login-register">
-                Login
+                Sign In
               </button>
             </div>
           </form>
           <p className="paragraph-register-login">
-            Para se registrar,{" "}
             <a
               onClick={() => navigate("/register")}
               className="anchor-register"
             >
-              clique aqui
+              Click here to sign up
             </a>
           </p>
         </div>
       </div>
-      <footer className="footer-crossword">HEADER</footer>
+      <FooterCrossword />
     </div>
   );
 };

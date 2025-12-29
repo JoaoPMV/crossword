@@ -46,7 +46,6 @@ export const loginUser = async (formData) => {
 };
 
 // Função para buscar jogos
-// Função para buscar jogos
 export const fetchGames = async () => {
   try {
     const token = localStorage.getItem("authToken"); // pega o token do login
