@@ -8,7 +8,7 @@ import Logout from "./pages/Logout"; // ajuste o caminho!
 export default function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/logout" element={<Logout />} />
 
