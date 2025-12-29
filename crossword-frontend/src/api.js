@@ -1,9 +1,10 @@
-// src/api/api.js
+// eslint-disable-next-line no-undef
+const API_URL = process.env.REACT_APP_API_URL;
 
 // Função para registrar um usuário
 export const registerUser = async (formData) => {
   try {
-    const response = await fetch("http://localhost:5000/api/users/register", {
+    const response = await fetch(`${API_URL}/api/users/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +26,7 @@ export const registerUser = async (formData) => {
 // Função para autenticar o login de um usuário
 export const loginUser = async (formData) => {
   try {
-    const response = await fetch("http://localhost:5000/api/users/login", {
+    const response = await fetch(`${API_URL}/api/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,15 +45,13 @@ export const loginUser = async (formData) => {
   }
 };
 
-const API_URL = "http://localhost:5000"; // Atualize para o URL do seu backend
-
 // Função para buscar jogos
 // Função para buscar jogos
 export const fetchGames = async () => {
   try {
     const token = localStorage.getItem("authToken"); // pega o token do login
 
-    const response = await fetch("http://localhost:5000/api/games", {
+    const response = await fetch(`${API_URL}/api/games`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // envia o token
@@ -73,7 +72,7 @@ export const fetchGames = async () => {
 
 export const saveProgress = async (userId, completedPuzzle, token) => {
   try {
-    const response = await fetch("http://localhost:5000/progress/update", {
+    const response = await fetch(`${API_URL}/progress/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -100,7 +99,7 @@ export async function savePartialProgress(
   currentState,
   token
 ) {
-  const res = await fetch("http://localhost:5000/progress/save-partial", {
+  const res = await fetch(`${API_URL}/progress/save-partial`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -121,7 +120,7 @@ export async function savePartialProgress(
 
 export async function getProgress(userId, token) {
   try {
-    const res = await fetch(`http://localhost:5000/progress/${userId}`, {
+    const res = await fetch(`${API_URL}/progress/${userId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -143,7 +142,7 @@ export async function getProgress(userId, token) {
 // Função para buscar o usuário logado pelo token
 export const fetchUserByToken = async (token) => {
   try {
-    const response = await fetch("http://localhost:5000/api/users/me", {
+    const response = await fetch(`${API_URL}/api/users/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
