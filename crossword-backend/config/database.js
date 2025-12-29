@@ -5,6 +5,7 @@ require("dotenv").config(); // Carrega as variáveis de ambiente do .env
 const mongoURI = process.env.MONGO_URI;
 
 // Função para conectar ao MongoDB
+console.log("DEBUG MONGO_URI:", process.env.MONGO_URI);
 const connectDB = async () => {
   try {
     await mongoose.connect(mongoURI);
