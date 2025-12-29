@@ -15,9 +15,9 @@ app.use(express.json());
 // Middleware CORS (Permite requisições do frontend)
 app.use(
   cors({
-    origin: "http://localhost:3000", // URL do frontend
-    methods: ["GET", "POST", "PUT", "DELETE"], // Métodos permitidos
-    credentials: true, // Permitir envio de cookies ou credenciais, se necessário
+    origin: ["http://localhost:3000", "https://platforma-frontend.vercel.app"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
 
