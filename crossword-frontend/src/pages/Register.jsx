@@ -26,7 +26,7 @@ const Register = () => {
 
       setMessage("Registro concluído com sucesso!");
 
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Erro ao registrar o usuário:", error.message);
       setMessage(error.message || "Erro ao registrar o usuário.");
@@ -91,7 +91,7 @@ const Register = () => {
           </form>
           <p className="paragraph-register-login">
             Para fazer login,{" "}
-            <a onClick={() => navigate("/login")} className="anchor-register">
+            <a onClick={() => navigate("/")} className="anchor-register">
               clique aqui
             </a>
           </p>
