@@ -12,7 +12,7 @@ export default function Logout() {
     // 2. Limpa contexto
     setUser(null);
     // 3. Redireciona para login
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   }, [navigate, setUser]);
 
   // Opcional: algum texto/loading, mas não é obrigatório
