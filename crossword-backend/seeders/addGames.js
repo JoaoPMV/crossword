@@ -10,10 +10,24 @@ const addNewGame = async () => {
 
   // Dados do segundo nível a ser adicionado
   const newGameData = {
-    level: "Level 0 - at the airport",
+    level: "Level 4 - at the supermarket",
     id: "4",
-    slug: "airport2",
-    words: [{ startCell: 1, dir: "down", answer: "IMMIGRATION", clue: "" }],
+    slug: "supermarket",
+    words: [
+      { startCell: 1, dir: "across", answer: "DETERGENT", clue: "" },
+      { startCell: 23, dir: "across", answer: "FLOUR", clue: "" },
+      { startCell: 39, dir: "across", answer: "SALT", clue: "" },
+      { startCell: 69, dir: "across", answer: "SOUP", clue: "" },
+      { startCell: 89, dir: "across", answer: "EGGS", clue: "" },
+      { startCell: 105, dir: "across", answer: "CHEESE", clue: "" },
+      { startCell: 9, dir: "down", answer: "TOOTHPASTE", clue: "" },
+      { startCell: 11, dir: "down", answer: "RICE", clue: "" },
+      { startCell: 25, dir: "down", answer: "OIL", clue: "" },
+      { startCell: 39, dir: "down", answer: "SOAP", clue: "" },
+      { startCell: 45, dir: "down", answer: "BUTTER", clue: "" },
+      { startCell: 66, dir: "down", answer: "JUICE", clue: "" },
+      { startCell: 69, dir: "down", answer: "SUGAR", clue: "" },
+    ],
   };
 
   try {
