@@ -10,23 +10,20 @@ const addNewGame = async () => {
 
   // Dados do segundo nível a ser adicionado
   const newGameData = {
-    level: "Level 4 - at the supermarket",
-    id: "4",
-    slug: "supermarket",
+    level: "Level 5 - at home",
+    id: "5",
+    slug: "home",
     words: [
-      { startCell: 1, dir: "across", answer: "DETERGENT", clue: "" },
-      { startCell: 23, dir: "across", answer: "FLOUR", clue: "" },
-      { startCell: 39, dir: "across", answer: "SALT", clue: "" },
-      { startCell: 69, dir: "across", answer: "SOUP", clue: "" },
-      { startCell: 89, dir: "across", answer: "EGGS", clue: "" },
-      { startCell: 105, dir: "across", answer: "CHEESE", clue: "" },
-      { startCell: 9, dir: "down", answer: "TOOTHPASTE", clue: "" },
-      { startCell: 11, dir: "down", answer: "RICE", clue: "" },
-      { startCell: 25, dir: "down", answer: "OIL", clue: "" },
-      { startCell: 39, dir: "down", answer: "SOAP", clue: "" },
-      { startCell: 45, dir: "down", answer: "BUTTER", clue: "" },
-      { startCell: 66, dir: "down", answer: "JUICE", clue: "" },
-      { startCell: 69, dir: "down", answer: "SUGAR", clue: "" },
+      { startCell: 1, dir: "across", answer: "CEILING", clue: "" },
+      { startCell: 25, dir: "across", answer: "LAPTOP", clue: "" },
+      { startCell: 45, dir: "across", answer: "REMOTE", clue: "" },
+      { startCell: 101, dir: "across", answer: "TOOTHBRUSH", clue: "" },
+      { startCell: 1, dir: "down", answer: "CHAIR", clue: "" },
+      { startCell: 11, dir: "down", answer: "SEAT", clue: "" },
+      { startCell: 25, dir: "down", answer: "LAMP", clue: "" },
+      { startCell: 49, dir: "down", answer: "TOILET", clue: "" },
+      { startCell: 52, dir: "down", answer: "HEATER", clue: "" },
+      { startCell: 66, dir: "down", answer: "COUCH", clue: "" },
     ],
   };
 
