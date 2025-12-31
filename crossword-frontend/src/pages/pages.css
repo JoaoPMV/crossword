@@ -28,7 +28,7 @@
   text-decoration: none;
 }
 
-.main-teste {
+.main-login {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   background-image: url('/images/english2.jpg');
@@ -39,7 +39,6 @@
   align-items: center;
   padding-left: 7vw;
   padding-bottom: 5vh;
-
 }
 
 .footer-login-register {
@@ -50,8 +49,6 @@
   align-items: center;
   background-color: blue;
 }
-
-
 
 .form-login {
   max-width: 17vw;
@@ -107,13 +104,6 @@
 }
 
 
-.footer-crossword {
-  grid-column: 1 / 2;
-  grid-row: 3 / 4;
-  background-color: blue;
-  height: 10vh;
-}
-
 .dev-info {
   height: 100%;
 }
@@ -163,23 +153,38 @@
 
 @media (max-width: 768px) {
   .container-login-register {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10vh 1fr 10vh;
     width: 100%;
-    height: 80vh;
-    background-image: url('/images/english2.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-left: 0;
-    ;
+    height: 100vh;
   }
 
-  .anchor-register {
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-    color: white;
+  .form-login {
+    max-width: 50vw;
+    border-radius: 0.25rem;
+    height: 23vh;
+    margin-bottom: 5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
+
+  .main-login {
+    justify-content: center;
+    padding-left: 0;
+    padding-bottom: 0;
+  }
+
+  .form-register {
+    max-width: 50vw;
+    border-radius: 0.25rem;
+    height: 27vh;
+    margin-bottom: 5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+
 }

@@ -39,7 +39,7 @@ const Register = () => {
       <header className="header-login-register">
         <a href="/">Sign In</a>
       </header>
-      <main className="main-teste">
+      <main className="main-login">
         <form onSubmit={handleSubmit} className="form-register">
           <div className="error-message">
             {message && <span>{message}</span>}
@@ -82,7 +82,7 @@ const Register = () => {
           </button>
         </form>
       </main>
-      <footer className="footer">
+      <footer className="footer-login-register">
         <div className="dev-info">
           <p>
             <FaGithub className="git-icon" />

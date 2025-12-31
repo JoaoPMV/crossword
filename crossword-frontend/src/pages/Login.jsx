@@ -24,24 +24,19 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      // Chama a função de login para obter a resposta da API
       const response = await loginUser(formData);
 
       if (response.token && response.user) {
-        // Salva o token no localStorage
         localStorage.setItem("authToken", response.token);
-        // Salva o user no contexto para acesso global no app
         setUser(response.user);
 
-        setMessage("Login realizado com sucesso!");
-
-        // Redireciona o usuário para a página do jogo
-        navigate("/crossword");
+        setTimeout(() => {
+          navigate("/crossword");
+        }, 0);
       } else {
         setMessage("Nenhum token ou usuário recebido na resposta.");
       }
     } catch (error) {
-      // Trata erros e exibe mensagem de erro ao usuário
       setMessage(error.message || "Erro ao fazer login.");
     }
   };
@@ -52,7 +47,7 @@ const Login = () => {
         <header className="header-login-register">
           <a href="/register">Sign Up</a>
         </header>
-        <main className="main-teste">
+        <main className="main-login">
           <form onSubmit={loginSubmit} className="form-login">
             <p className="error-login">{message}</p>
 

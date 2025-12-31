@@ -2,10 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchGames } from "../api";
 import { saveProgress } from "../api";
+import { useAuth } from "../context/authContext";
 import { savePartialProgress, getProgress } from "../api";
+import { FaGithub } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import "./crossword.css";
-import HeaderCrossword from "./header";
-import FooterCrossword from "./footer";
 
 // Declara a função manual para decodificar JWT
 const decodeTokenManualmente = (token) => {
@@ -113,6 +114,7 @@ function placeWordsIntoGrid(rows, cols, words) {
 }
 
 export default function Teste({ rows = 11, cols = 11 }) {
+  const { user } = useAuth();
   // Estados
   const [levels, setLevels] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -392,103 +394,117 @@ export default function Teste({ rows = 11, cols = 11 }) {
   };
 
   return (
-    <div>
-      <HeaderCrossword />
-      <div id="grid-crossword">
-        <div className="section-crossword">
-          <h3 className="level-crossword">
-            {levels[currentLevelIdx]?.level || "Nível desconhecido"}
-          </h3>
-
-          <audio controls ref={audioRef}></audio>
-          <button
-            className={`next-crossword ${isAllCorrect ? "correct" : ""}`}
-            onClick={async () => {
-              const nextIdx = (currentLevelIdx + 1) % levels.length;
-              setCurrentLevelIdx(nextIdx);
-              setTimeout(() => {
-                handleSaveProgress(nextIdx); // <-- aqui passa O INDICE DO NOVO LEVEL!
-              }, 0);
-            }}
-            disabled={!isAllCorrect || isSaving}
-          >
-            {isSaving ? "Salvando..." : "Next"}
-          </button>
+    <div id="grid-crossword">
+      <header className="header-crossword">
+        <div className="user-log">
+          <p>
+            <FaUserCircle className="user-icon" />
+          </p>
+          <p>{user ? user.name : "usuário"}</p>
         </div>
-        <main className="main-crossword">
-          <div
-            className="crossword-grid"
-            role="grid"
-            aria-label={`Palavras cruzadas ${rows}x${cols}`}
-          >
-            {gridCells.map((cell, idx) => {
-              const cls = [
-                "cell",
-                cell.solution ? "in-word" : "",
-                cell.status === "correct" ? "correct" : "",
-                cell.status === "wrong" ? "wrong" : "",
-              ]
-                .filter(Boolean)
-                .join(" ");
 
-              return (
-                <div key={idx} data-cell={idx} className={cls}>
-                  {cell.status === "correct" ? (
-                    // Ao acertar, SÓ EXIBE A LETRA. NÃO TEM MAIS INPUT!
-                    <span className="cell-letter">{cell.letter}</span>
-                  ) : cell.solution ? (
-                    <input
-                      type="text"
-                      maxLength={1}
-                      className="cell-input"
-                      value={cell.letter}
-                      ref={(el) => (inputRefs.current[idx] = el)}
-                      onKeyDown={(e) => handleKeyboardAndBackspace(idx, e)}
-                      onClick={() => {
-                        if (cell.isPartOfAcrossWord) {
-                          setInputDirection("across");
-                        } else if (cell.isPartOfDownWord) {
-                          setInputDirection("down");
-                        }
-                      }}
-                      onChange={(e) => {
-                        const value = e.target.value.toUpperCase();
-                        const newGrid = [...gridCells];
+        <a href="/logout">Sair</a>
+      </header>
+      <section className="section-crossword">
+        <h3 className="level-crossword">
+          {levels[currentLevelIdx]?.level || "Nível desconhecido"}
+        </h3>
 
-                        newGrid[idx].letter = value;
+        <audio controls ref={audioRef}></audio>
+        <button
+          className={`next-crossword ${isAllCorrect ? "correct" : ""}`}
+          onClick={async () => {
+            const nextIdx = (currentLevelIdx + 1) % levels.length;
+            setCurrentLevelIdx(nextIdx);
+            setTimeout(() => {
+              handleSaveProgress(nextIdx); // <-- aqui passa O INDICE DO NOVO LEVEL!
+            }, 0);
+          }}
+          disabled={!isAllCorrect || isSaving}
+        >
+          {isSaving ? "Salvando..." : "Next"}
+        </button>
+      </section>
+      <main className="main-crossword">
+        <div
+          className="crossword-grid"
+          role="grid"
+          aria-label={`Palavras cruzadas ${rows}x${cols}`}
+        >
+          {gridCells.map((cell, idx) => {
+            const cls = [
+              "cell",
+              cell.solution ? "in-word" : "",
+              cell.status === "correct" ? "correct" : "",
+              cell.status === "wrong" ? "wrong" : "",
+            ]
+              .filter(Boolean)
+              .join(" ");
 
-                        if (value === cell.solution) {
-                          newGrid[idx].status = "correct";
-                        } else if (value !== "") {
-                          newGrid[idx].status = "wrong";
+            return (
+              <div key={idx} data-cell={idx} className={cls}>
+                {cell.status === "correct" ? (
+                  // Ao acertar, SÓ EXIBE A LETRA. NÃO TEM MAIS INPUT!
+                  <span className="cell-letter">{cell.letter}</span>
+                ) : cell.solution ? (
+                  <input
+                    type="text"
+                    maxLength={1}
+                    className="cell-input"
+                    value={cell.letter}
+                    ref={(el) => (inputRefs.current[idx] = el)}
+                    onKeyDown={(e) => handleKeyboardAndBackspace(idx, e)}
+                    onClick={() => {
+                      if (cell.isPartOfAcrossWord) {
+                        setInputDirection("across");
+                      } else if (cell.isPartOfDownWord) {
+                        setInputDirection("down");
+                      }
+                    }}
+                    onChange={(e) => {
+                      const value = e.target.value.toUpperCase();
+                      const newGrid = [...gridCells];
+
+                      newGrid[idx].letter = value;
+
+                      if (value === cell.solution) {
+                        newGrid[idx].status = "correct";
+                      } else if (value !== "") {
+                        newGrid[idx].status = "wrong";
+                      } else {
+                        newGrid[idx].status = "default";
+                      }
+
+                      setGridCells(newGrid);
+
+                      if (value !== "") {
+                        // Direção agora depende do estado inputDirection!
+                        if (inputDirection === "down") {
+                          moveFocus(idx, (idx) => idx + cols);
                         } else {
-                          newGrid[idx].status = "default";
+                          moveFocus(idx, (idx) => idx + 1);
                         }
+                      }
 
-                        setGridCells(newGrid);
-
-                        if (value !== "") {
-                          // Direção agora depende do estado inputDirection!
-                          if (inputDirection === "down") {
-                            moveFocus(idx, (idx) => idx + cols);
-                          } else {
-                            moveFocus(idx, (idx) => idx + 1);
-                          }
-                        }
-
-                        handleAutoSave();
-                      }}
-                    />
-                  ) : (
-                    cell.letter
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </main>
-      </div>
-      <FooterCrossword />
+                      handleAutoSave();
+                    }}
+                  />
+                ) : (
+                  cell.letter
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </main>
+      <footer className="footer-crossword">
+        <div className="dev-info">
+          <p>
+            <FaGithub className="git-icon" />
+          </p>
+          <p className="">JoãoP Dev</p>
+        </div>
+      </footer>
     </div>
   );
 }
