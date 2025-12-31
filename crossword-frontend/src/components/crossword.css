@@ -36,7 +36,6 @@ body,
   display: flex;
   justify-content: center;
   align-items: center;
-
   gap: .5rem;
   height: 100%;
 
@@ -51,15 +50,12 @@ body,
   font-size: 25px;
 }
 
-
 .dev-info {
-
   display: flex;
   gap: 1rem;
   align-items: center;
   padding: 5px 8px;
   border-radius: 0.25rem;
-
 }
 
 .git-icon {
@@ -84,8 +80,6 @@ body,
   background-size: cover;
 }
 
-
-
 .crossword .grid .clue-cell rect {
   stroke: gray !important;
   /* cor da borda */
@@ -96,8 +90,6 @@ body,
 .crossword .clues {
   display: none !important;
 }
-
-
 
 .grid-teste {
   width: 70vh;
@@ -133,7 +125,6 @@ body,
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .main-crossword {
@@ -232,7 +223,6 @@ body,
   background-color: rgb(14, 119, 14);
   color: white;
   transform: scale(1.1);
-
 }
 
 @media (max-width: 780px) {

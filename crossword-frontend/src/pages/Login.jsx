@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api";
 import { useAuth } from "../context/authContext"; // Importa o hook
-import HeaderCrossword from "../components//header";
-import FooterCrossword from "../components/footer";
+import { FaGithub } from "react-icons/fa";
 import "./pages.css";
 
 const Login = () => {
@@ -49,54 +48,49 @@ const Login = () => {
 
   return (
     <div>
-      <HeaderCrossword />
       <div className="container-login-register">
-        <div className="main-login-register">
-          <p className="error-login">{message}</p>
-          <form onSubmit={loginSubmit}>
-            <div className="login-email">
-              <input
-                className="login-email-input"
-                type="email"
-                placeholder="Email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={loginData}
-                required
-              />
-            </div>
+        <header className="header-login-register">
+          <a href="/register">Sign Up</a>
+        </header>
+        <main className="main-teste">
+          <form onSubmit={loginSubmit} className="form-login">
+            <p className="error-login">{message}</p>
 
-            <div className="login-password">
-              <input
-                type="password"
-                placeholder="Password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={loginData}
-                required
-                style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-              />
-            </div>
+            <input
+              className=""
+              type="email"
+              placeholder="Email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={loginData}
+              required
+            />
 
-            <div>
-              <button type="submit" className="button-login-register">
-                Sign In
-              </button>
-            </div>
+            <input
+              type="password"
+              placeholder="Password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={loginData}
+              required
+            />
+
+            <button type="submit" className="button-login-register">
+              Sign In
+            </button>
           </form>
-          <p className="paragraph-register-login">
-            <a
-              onClick={() => navigate("/register")}
-              className="anchor-register"
-            >
-              Click here to sign up
-            </a>
-          </p>
-        </div>
+        </main>
+        <footer className="footer-login-register">
+          <div className="dev-info">
+            <p>
+              <FaGithub className="git-icon" />
+            </p>
+            <p className="">JoãoP Dev</p>
+          </div>
+        </footer>
       </div>
-      <FooterCrossword />
     </div>
   );
 };
