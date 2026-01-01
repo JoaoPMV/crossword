@@ -405,98 +405,100 @@ export default function Teste({ rows = 11, cols = 11 }) {
 
         <a href="/logout">Sair</a>
       </header>
-      <section className="section-crossword">
-        <h3 className="level-crossword">
-          {levels[currentLevelIdx]?.level || "Nível desconhecido"}
-        </h3>
+      <div className="d-flex main-master">
+        <section className="section-crossword">
+          <h3 className="level-crossword">
+            {levels[currentLevelIdx]?.level || "Nível desconhecido"}
+          </h3>
 
-        <audio controls ref={audioRef}></audio>
-        <button
-          className={`next-crossword ${isAllCorrect ? "correct" : ""}`}
-          onClick={async () => {
-            const nextIdx = (currentLevelIdx + 1) % levels.length;
-            setCurrentLevelIdx(nextIdx);
-            setTimeout(() => {
-              handleSaveProgress(nextIdx); // <-- aqui passa O INDICE DO NOVO LEVEL!
-            }, 0);
-          }}
-          disabled={!isAllCorrect || isSaving}
-        >
-          {isSaving ? "Salvando..." : "Next"}
-        </button>
-      </section>
-      <main className="main-crossword">
-        <div
-          className="crossword-grid"
-          role="grid"
-          aria-label={`Palavras cruzadas ${rows}x${cols}`}
-        >
-          {gridCells.map((cell, idx) => {
-            const cls = [
-              "cell",
-              cell.solution ? "in-word" : "",
-              cell.status === "correct" ? "correct" : "",
-              cell.status === "wrong" ? "wrong" : "",
-            ]
-              .filter(Boolean)
-              .join(" ");
+          <audio controls ref={audioRef}></audio>
+          <button
+            className={`next-crossword ${isAllCorrect ? "correct" : ""}`}
+            onClick={async () => {
+              const nextIdx = (currentLevelIdx + 1) % levels.length;
+              setCurrentLevelIdx(nextIdx);
+              setTimeout(() => {
+                handleSaveProgress(nextIdx); // <-- aqui passa O INDICE DO NOVO LEVEL!
+              }, 0);
+            }}
+            disabled={!isAllCorrect || isSaving}
+          >
+            {isSaving ? "Salvando..." : "Next"}
+          </button>
+        </section>
+        <main className="main-crossword">
+          <div
+            className="crossword-grid"
+            role="grid"
+            aria-label={`Palavras cruzadas ${rows}x${cols}`}
+          >
+            {gridCells.map((cell, idx) => {
+              const cls = [
+                "cell",
+                cell.solution ? "in-word" : "",
+                cell.status === "correct" ? "correct" : "",
+                cell.status === "wrong" ? "wrong" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
 
-            return (
-              <div key={idx} data-cell={idx} className={cls}>
-                {cell.status === "correct" ? (
-                  // Ao acertar, SÓ EXIBE A LETRA. NÃO TEM MAIS INPUT!
-                  <span className="cell-letter">{cell.letter}</span>
-                ) : cell.solution ? (
-                  <input
-                    type="text"
-                    maxLength={1}
-                    className="cell-input"
-                    value={cell.letter}
-                    ref={(el) => (inputRefs.current[idx] = el)}
-                    onKeyDown={(e) => handleKeyboardAndBackspace(idx, e)}
-                    onClick={() => {
-                      if (cell.isPartOfAcrossWord) {
-                        setInputDirection("across");
-                      } else if (cell.isPartOfDownWord) {
-                        setInputDirection("down");
-                      }
-                    }}
-                    onChange={(e) => {
-                      const value = e.target.value.toUpperCase();
-                      const newGrid = [...gridCells];
-
-                      newGrid[idx].letter = value;
-
-                      if (value === cell.solution) {
-                        newGrid[idx].status = "correct";
-                      } else if (value !== "") {
-                        newGrid[idx].status = "wrong";
-                      } else {
-                        newGrid[idx].status = "default";
-                      }
-
-                      setGridCells(newGrid);
-
-                      if (value !== "") {
-                        // Direção agora depende do estado inputDirection!
-                        if (inputDirection === "down") {
-                          moveFocus(idx, (idx) => idx + cols);
-                        } else {
-                          moveFocus(idx, (idx) => idx + 1);
+              return (
+                <div key={idx} data-cell={idx} className={cls}>
+                  {cell.status === "correct" ? (
+                    // Ao acertar, SÓ EXIBE A LETRA. NÃO TEM MAIS INPUT!
+                    <span className="cell-letter">{cell.letter}</span>
+                  ) : cell.solution ? (
+                    <input
+                      type="text"
+                      maxLength={1}
+                      className="cell-input"
+                      value={cell.letter}
+                      ref={(el) => (inputRefs.current[idx] = el)}
+                      onKeyDown={(e) => handleKeyboardAndBackspace(idx, e)}
+                      onClick={() => {
+                        if (cell.isPartOfAcrossWord) {
+                          setInputDirection("across");
+                        } else if (cell.isPartOfDownWord) {
+                          setInputDirection("down");
                         }
-                      }
+                      }}
+                      onChange={(e) => {
+                        const value = e.target.value.toUpperCase();
+                        const newGrid = [...gridCells];
 
-                      handleAutoSave();
-                    }}
-                  />
-                ) : (
-                  cell.letter
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </main>
+                        newGrid[idx].letter = value;
+
+                        if (value === cell.solution) {
+                          newGrid[idx].status = "correct";
+                        } else if (value !== "") {
+                          newGrid[idx].status = "wrong";
+                        } else {
+                          newGrid[idx].status = "default";
+                        }
+
+                        setGridCells(newGrid);
+
+                        if (value !== "") {
+                          // Direção agora depende do estado inputDirection!
+                          if (inputDirection === "down") {
+                            moveFocus(idx, (idx) => idx + cols);
+                          } else {
+                            moveFocus(idx, (idx) => idx + 1);
+                          }
+                        }
+
+                        handleAutoSave();
+                      }}
+                    />
+                  ) : (
+                    cell.letter
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </main>
+      </div>
       <footer className="footer-crossword">
         <div className="dev-info">
           <p>
