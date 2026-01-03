@@ -112,7 +112,6 @@ body,
 }
 
 .section-crossword {
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -120,7 +119,6 @@ body,
   gap: 2rem;
   width: 50%;
   height: 80vh;
-
 }
 
 .main-crossword {
@@ -197,6 +195,28 @@ body,
 .level-crossword {
   color: white;
   margin: 0;
+}
+
+.buttons-crossword {
+  display: flex;
+  gap: 1rem;
+}
+
+.how-to-play-button {
+  background-color: rgb(14, 119, 14);
+  color: white;
+  width: auto;
+  height: 3rem;
+  border: none;
+  padding: 10px;
+  border-top-left-radius: 0.50rem;
+  border-bottom-left-radius: 0.50rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.how-to-play-button:hover {
+  background-color: rgb(12, 81, 12);
+  color: rgb(224, 222, 222);
 
 }
 
@@ -204,16 +224,75 @@ body,
   border: none;
   background: gray;
   color: rgb(196, 194, 194);
-  border-radius: 0.25rem;
+  border-top-right-radius: 0.50rem;
+  border-bottom-right-radius: 0.50rem;
   width: 4rem;
   height: 3rem;
   transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.next-crossword:hover {
+  background: rgb(93, 91, 91);
+
 }
 
 .next-crossword.correct {
   background-color: rgb(14, 119, 14);
   color: white;
   transform: scale(1.1);
+}
+
+.next-crossword.correct:hover {
+  background-color: rgb(12, 81, 12);
+  color: white;
+  transform: scale(1.1);
+}
+
+.how-to-play-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  border: 1px solid gray;
+  padding: auto;
+  height: 70%;
+  width: 40%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 3vw;
+  box-shadow: 10px 10px 10px rgba(35, 50, 136, 0.3);
+  border-top-right-radius: 5rem;
+  border-bottom-left-radius: 5rem;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  background: rgb(212, 212, 215);
+  gap: 4rem;
+  padding-bottom: 1rem;
+
+}
+
+
+.how-to-play {
+  text-align: center;
+  font-family: "Architects Daughter", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 23px;
+}
+
+.game-instrutctions {
+  font-family: "Didact Gothic", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+}
+
+.numbers-icons {
+  font-size: 25px;
+  color: blue;
 }
 
 @media (max-width: 780px) {
@@ -239,8 +318,10 @@ body,
     justify-content: start;
     height: 30vh;
     width: 100%;
-
+    gap: 2rem;
+    margin-top: 2rem;
   }
+
 
   .footer-crossword {
     grid-column: 1 / 2;
@@ -259,7 +340,8 @@ body,
     justify-content: center;
     align-items: center;
     background-color: transparent;
-    padding: 1rem;
+    padding: 0;
+    padding-bottom: 3vh;
   }
 
   .cell {
@@ -289,16 +371,24 @@ body,
   }
 
   .buttons-crossword {
-    gap: 0;
+    gap: 2vw;
+
+    display: flex;
+    align-items: center;
+
+
+
   }
+
 
 
   .level-crossword {
-    margin: 2vh 0;
+    margin: 0;
   }
 
   .next-crossword {
-    margin: 2vh 0;
+    margin: 0;
+
   }
 
   #grid-crossword {
@@ -318,17 +408,25 @@ body,
   .footer-crossword {
     grid-column: 1 / 2;
     grid-row: 3 / 4;
-    background-color: blue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
   }
 
   .main-crossword {
     height: auto;
+    padding: 0;
   }
 
+  html,
+  body {
+    overflow-x: hidden;
+  }
 
+  .how-to-play-box {
+    height: 45%;
+    width: 95%;
+    transform: translate(-50%, -20%);
+
+  }
 
 
 }

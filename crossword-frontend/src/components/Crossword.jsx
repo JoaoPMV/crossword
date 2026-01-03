@@ -6,6 +6,12 @@ import { useAuth } from "../context/authContext";
 import { savePartialProgress, getProgress } from "../api";
 import { FaGithub } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
+import { TbHexagonNumber1Filled } from "react-icons/tb";
+import { TbHexagonNumber2Filled } from "react-icons/tb";
+import { TbHexagonNumber3Filled } from "react-icons/tb";
+import { TbHexagonNumber4Filled } from "react-icons/tb";
+import { TbHexagonNumber5Filled } from "react-icons/tb";
+
 import "./crossword.css";
 
 // Declara a função manual para decodificar JWT
@@ -124,6 +130,7 @@ export default function Teste({ rows = 11, cols = 11 }) {
   const [isAllCorrect, setIsAllCorrect] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [inputDirection, setInputDirection] = useState("across"); // ou "down"
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
 
   const inputRefs = useRef([]);
   const congratsAudioRef = useRef(new Audio("./audios/congratulation.mp3"));
@@ -412,19 +419,66 @@ export default function Teste({ rows = 11, cols = 11 }) {
           </h3>
 
           <audio controls ref={audioRef}></audio>
-          <button
-            className={`next-crossword ${isAllCorrect ? "correct" : ""}`}
-            onClick={async () => {
-              const nextIdx = (currentLevelIdx + 1) % levels.length;
-              setCurrentLevelIdx(nextIdx);
-              setTimeout(() => {
-                handleSaveProgress(nextIdx); // <-- aqui passa O INDICE DO NOVO LEVEL!
-              }, 0);
-            }}
-            disabled={!isAllCorrect || isSaving}
-          >
-            {isSaving ? "Salvando..." : "Next"}
-          </button>
+          <div className="buttons-crossword">
+            <button
+              className="how-to-play-button"
+              onClick={() => setShowHowToPlay(!showHowToPlay)}
+            >
+              How to Play
+            </button>
+            {showHowToPlay && (
+              <div className="how-to-play-box">
+                <div className="how-to-play">How to Play This Game</div>
+                <div className="game-instrutctions">
+                  <p>
+                    {" "}
+                    <span>
+                      <TbHexagonNumber1Filled className="numbers-icons" />
+                    </span>{" "}
+                    Listen to audios about daily routines.
+                  </p>
+                  <p>
+                    {" "}
+                    <span>
+                      <TbHexagonNumber2Filled className="numbers-icons" />
+                    </span>{" "}
+                    Audios give you the words you need to solve the crossword.
+                  </p>
+                  <p>
+                    {" "}
+                    <span>
+                      <TbHexagonNumber3Filled className="numbers-icons" />
+                    </span>{" "}
+                    This game improves vocabulary, listening and speaking.
+                  </p>
+                  <p>
+                    {" "}
+                    <span>
+                      <TbHexagonNumber4Filled className="numbers-icons" />
+                    </span>{" "}
+                    Each level consists in a different audio.
+                  </p>
+                  <p>
+                    <span>
+                      <TbHexagonNumber5Filled className="numbers-icons" />
+                    </span>{" "}
+                    Letters must be typed top to bottom or left to right.
+                  </p>
+                </div>
+              </div>
+            )}
+            <button
+              className={`next-crossword ${isAllCorrect ? "correct" : ""}`}
+              onClick={() => {
+                const nextIdx = (currentLevelIdx + 1) % levels.length;
+                setCurrentLevelIdx(nextIdx);
+                handleSaveProgress(nextIdx); // salva em background sem alterar o texto
+              }}
+              disabled={!isAllCorrect} // se quiser, só depende de acerto
+            >
+              Next
+            </button>
+          </div>
         </section>
         <main className="main-crossword">
           <div
