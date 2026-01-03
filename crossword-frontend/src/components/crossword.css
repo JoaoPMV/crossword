@@ -271,7 +271,6 @@ body,
   background: rgb(212, 212, 215);
   gap: 4rem;
   padding-bottom: 1rem;
-
 }
 
 
@@ -427,6 +426,27 @@ body,
     transform: translate(-50%, -20%);
 
   }
+
+  .how-to-play-box {
+    position: fixed;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    border: 1px solid gray;
+    padding: 1rem;
+    padding-left: 3vw;
+    border-top-right-radius: 3rem;
+    border-bottom-left-radius: 2rem;
+    border-top-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    background: rgb(212, 212, 215);
+    gap: 1rem;
+    padding-bottom: 0;
+  }
+
+
+
 
 
 }
