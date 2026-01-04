@@ -120,7 +120,6 @@ function placeWordsIntoGrid(rows, cols, words) {
 }
 
 export default function Teste({ rows = 11, cols = 11 }) {
-  const [isPortrait, setIsPortrait] = useState(false);
   const { user } = useAuth();
   // Estados
   const [levels, setLevels] = useState([]);
@@ -246,32 +245,6 @@ export default function Teste({ rows = 11, cols = 11 }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkOrientation = () => {
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-      const portrait = window.matchMedia("(orientation: portrait)").matches;
-
-      setIsPortrait(isMobile && portrait);
-    };
-
-    checkOrientation(); // inicial
-    window.addEventListener("resize", checkOrientation);
-    window.addEventListener("orientationchange", checkOrientation);
-
-    return () => {
-      window.removeEventListener("resize", checkOrientation);
-      window.removeEventListener("orientationchange", checkOrientation);
-    };
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = isPortrait ? "hidden" : "auto";
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isPortrait]);
-
-  useEffect(() => {
     const loadLevels = async () => {
       const token = localStorage.getItem("authToken");
       if (!token) {
@@ -306,6 +279,7 @@ export default function Teste({ rows = 11, cols = 11 }) {
       }
 
       const progress = await getProgress(userId, token);
+
       const idx = levels.findIndex(
         (level) =>
           level.level.trim().toLowerCase() ===
@@ -427,176 +401,166 @@ export default function Teste({ rows = 11, cols = 11 }) {
   };
 
   return (
-    <>
-      {isPortrait && (
-        <div className="rotate-overlay">
-          <div className="rotate-box">
-            <p>Para uma melhor experiência, gire o celular 📱</p>
-          </div>
+    <div id="grid-crossword">
+      <header className="header-crossword">
+        <div className="user-log">
+          <p>
+            <FaUserCircle className="user-icon" />
+          </p>
+          <p>{user ? user.name : "usuário"}</p>
         </div>
-      )}
 
-      <div id="grid-crossword">
-        <header className="header-crossword">
-          <div className="user-log">
-            <p>
-              <FaUserCircle className="user-icon" />
-            </p>
-            <p>{user ? user.name : "usuário"}</p>
-          </div>
+        <a href="/logout">Sair</a>
+      </header>
+      <div className="d-flex main-master">
+        <section className="section-crossword">
+          <h3 className="level-crossword">
+            {levels[currentLevelIdx]?.level || "Nível desconhecido"}
+          </h3>
 
-          <a href="/logout">Sair</a>
-        </header>
-        <div className="d-flex main-master">
-          <section className="section-crossword">
-            <h3 className="level-crossword">
-              {levels[currentLevelIdx]?.level || "Nível desconhecido"}
-            </h3>
-
-            <audio controls ref={audioRef}></audio>
-            <div className="buttons-crossword">
-              <button
-                className="how-to-play-button"
-                onClick={() => setShowHowToPlay(!showHowToPlay)}
-              >
-                How to Play
-              </button>
-              {showHowToPlay && (
-                <div className="how-to-play-box">
-                  <div className="how-to-play">How to Play This Game</div>
-                  <div className="game-instrutctions">
-                    <p>
-                      {" "}
-                      <span>
-                        <TbHexagonNumber1Filled className="numbers-icons" />
-                      </span>{" "}
-                      Listen to audios about daily routines.
-                    </p>
-                    <p>
-                      {" "}
-                      <span>
-                        <TbHexagonNumber2Filled className="numbers-icons" />
-                      </span>{" "}
-                      Audios give you the words you need to solve the crossword.
-                    </p>
-                    <p>
-                      {" "}
-                      <span>
-                        <TbHexagonNumber3Filled className="numbers-icons" />
-                      </span>{" "}
-                      This game improves vocabulary, listening and speaking.
-                    </p>
-                    <p>
-                      {" "}
-                      <span>
-                        <TbHexagonNumber4Filled className="numbers-icons" />
-                      </span>{" "}
-                      Each level consists in a different audio.
-                    </p>
-                    <p>
-                      <span>
-                        <TbHexagonNumber5Filled className="numbers-icons" />
-                      </span>{" "}
-                      Letters must be typed top to bottom or left to right.
-                    </p>
-                  </div>
-                </div>
-              )}
-              <button
-                className={`next-crossword ${isAllCorrect ? "correct" : ""}`}
-                onClick={() => {
-                  const nextIdx = (currentLevelIdx + 1) % levels.length;
-                  setCurrentLevelIdx(nextIdx);
-                  handleSaveProgress(nextIdx); // salva em background sem alterar o texto
-                }}
-                disabled={!isAllCorrect} // se quiser, só depende de acerto
-              >
-                Next
-              </button>
-            </div>
-          </section>
-          <main className="main-crossword">
-            <div
-              className="crossword-grid"
-              role="grid"
-              aria-label={`Palavras cruzadas ${rows}x${cols}`}
+          <audio controls ref={audioRef}></audio>
+          <div className="buttons-crossword">
+            <button
+              className="how-to-play-button"
+              onClick={() => setShowHowToPlay(!showHowToPlay)}
             >
-              {gridCells.map((cell, idx) => {
-                const cls = [
-                  "cell",
-                  cell.solution ? "in-word" : "",
-                  cell.status === "correct" ? "correct" : "",
-                  cell.status === "wrong" ? "wrong" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ");
-
-                return (
-                  <div key={idx} data-cell={idx} className={cls}>
-                    {cell.status === "correct" ? (
-                      // Ao acertar, SÓ EXIBE A LETRA. NÃO TEM MAIS INPUT!
-                      <span className="cell-letter">{cell.letter}</span>
-                    ) : cell.solution ? (
-                      <input
-                        type="text"
-                        maxLength={1}
-                        className="cell-input"
-                        value={cell.letter}
-                        ref={(el) => (inputRefs.current[idx] = el)}
-                        onKeyDown={(e) => handleKeyboardAndBackspace(idx, e)}
-                        onClick={() => {
-                          if (cell.isPartOfAcrossWord) {
-                            setInputDirection("across");
-                          } else if (cell.isPartOfDownWord) {
-                            setInputDirection("down");
-                          }
-                        }}
-                        onChange={(e) => {
-                          const value = e.target.value.toUpperCase();
-                          const newGrid = [...gridCells];
-
-                          newGrid[idx].letter = value;
-
-                          if (value === cell.solution) {
-                            newGrid[idx].status = "correct";
-                          } else if (value !== "") {
-                            newGrid[idx].status = "wrong";
-                          } else {
-                            newGrid[idx].status = "default";
-                          }
-
-                          setGridCells(newGrid);
-
-                          if (value !== "") {
-                            // Direção agora depende do estado inputDirection!
-                            if (inputDirection === "down") {
-                              moveFocus(idx, (idx) => idx + cols);
-                            } else {
-                              moveFocus(idx, (idx) => idx + 1);
-                            }
-                          }
-
-                          handleAutoSave();
-                        }}
-                      />
-                    ) : (
-                      cell.letter
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </main>
-        </div>
-        <footer className="footer-crossword">
-          <div className="dev-info">
-            <p>
-              <FaGithub className="git-icon" />
-            </p>
-            <p className="">JoãoP Dev</p>
+              How to Play
+            </button>
+            {showHowToPlay && (
+              <div className="how-to-play-box">
+                <div className="how-to-play">How to Play This Game</div>
+                <div className="game-instrutctions">
+                  <p>
+                    {" "}
+                    <span>
+                      <TbHexagonNumber1Filled className="numbers-icons" />
+                    </span>{" "}
+                    Listen to audios about daily routines.
+                  </p>
+                  <p>
+                    {" "}
+                    <span>
+                      <TbHexagonNumber2Filled className="numbers-icons" />
+                    </span>{" "}
+                    Audios give you the words you need to solve the crossword.
+                  </p>
+                  <p>
+                    {" "}
+                    <span>
+                      <TbHexagonNumber3Filled className="numbers-icons" />
+                    </span>{" "}
+                    This game improves vocabulary, listening and speaking.
+                  </p>
+                  <p>
+                    {" "}
+                    <span>
+                      <TbHexagonNumber4Filled className="numbers-icons" />
+                    </span>{" "}
+                    Each level consists in a different audio.
+                  </p>
+                  <p>
+                    <span>
+                      <TbHexagonNumber5Filled className="numbers-icons" />
+                    </span>{" "}
+                    Letters must be typed top to bottom or left to right.
+                  </p>
+                </div>
+              </div>
+            )}
+            <button
+              className={`next-crossword ${isAllCorrect ? "correct" : ""}`}
+              onClick={() => {
+                const nextIdx = (currentLevelIdx + 1) % levels.length;
+                setCurrentLevelIdx(nextIdx);
+                handleSaveProgress(nextIdx); // salva em background sem alterar o texto
+              }}
+              disabled={!isAllCorrect} // se quiser, só depende de acerto
+            >
+              Next
+            </button>
           </div>
-        </footer>
+        </section>
+        <main className="main-crossword">
+          <div
+            className="crossword-grid"
+            role="grid"
+            aria-label={`Palavras cruzadas ${rows}x${cols}`}
+          >
+            {gridCells.map((cell, idx) => {
+              const cls = [
+                "cell",
+                cell.solution ? "in-word" : "",
+                cell.status === "correct" ? "correct" : "",
+                cell.status === "wrong" ? "wrong" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
+
+              return (
+                <div key={idx} data-cell={idx} className={cls}>
+                  {cell.status === "correct" ? (
+                    // Ao acertar, SÓ EXIBE A LETRA. NÃO TEM MAIS INPUT!
+                    <span className="cell-letter">{cell.letter}</span>
+                  ) : cell.solution ? (
+                    <input
+                      type="text"
+                      maxLength={1}
+                      className="cell-input"
+                      value={cell.letter}
+                      ref={(el) => (inputRefs.current[idx] = el)}
+                      onKeyDown={(e) => handleKeyboardAndBackspace(idx, e)}
+                      onClick={() => {
+                        if (cell.isPartOfAcrossWord) {
+                          setInputDirection("across");
+                        } else if (cell.isPartOfDownWord) {
+                          setInputDirection("down");
+                        }
+                      }}
+                      onChange={(e) => {
+                        const value = e.target.value.toUpperCase();
+                        const newGrid = [...gridCells];
+
+                        newGrid[idx].letter = value;
+
+                        if (value === cell.solution) {
+                          newGrid[idx].status = "correct";
+                        } else if (value !== "") {
+                          newGrid[idx].status = "wrong";
+                        } else {
+                          newGrid[idx].status = "default";
+                        }
+
+                        setGridCells(newGrid);
+
+                        if (value !== "") {
+                          // Direção agora depende do estado inputDirection!
+                          if (inputDirection === "down") {
+                            moveFocus(idx, (idx) => idx + cols);
+                          } else {
+                            moveFocus(idx, (idx) => idx + 1);
+                          }
+                        }
+
+                        handleAutoSave();
+                      }}
+                    />
+                  ) : (
+                    cell.letter
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </main>
       </div>
-    </>
+      <footer className="footer-crossword">
+        <div className="dev-info">
+          <p>
+            <FaGithub className="git-icon" />
+          </p>
+          <p className="">JoãoP Dev</p>
+        </div>
+      </footer>
+    </div>
   );
 }
