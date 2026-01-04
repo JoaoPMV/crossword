@@ -271,32 +271,6 @@ export default function Teste({ rows = 11, cols = 11 }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkOrientation = () => {
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-      const portrait = window.matchMedia("(orientation: portrait)").matches;
-
-      setIsPortrait(isMobile && portrait);
-    };
-
-    checkOrientation(); // inicial
-    window.addEventListener("resize", checkOrientation);
-    window.addEventListener("orientationchange", checkOrientation);
-
-    return () => {
-      window.removeEventListener("resize", checkOrientation);
-      window.removeEventListener("orientationchange", checkOrientation);
-    };
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = isPortrait ? "hidden" : "auto";
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isPortrait]);
-
-  useEffect(() => {
     const loadLevels = async () => {
       const token = localStorage.getItem("authToken");
       if (!token) {
@@ -471,14 +445,6 @@ export default function Teste({ rows = 11, cols = 11 }) {
         >
           Install
         </button>
-      )}
-
-      {isPortrait && (
-        <div className="rotate-overlay">
-          <div className="rotate-box">
-            <p>Para uma melhor experiência, gire o celular</p>
-          </div>
-        </div>
       )}
 
       <div id="grid-crossword">
