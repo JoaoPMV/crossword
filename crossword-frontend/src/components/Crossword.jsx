@@ -121,6 +121,8 @@ function placeWordsIntoGrid(rows, cols, words) {
 
 export default function Teste({ rows = 11, cols = 11 }) {
   const [isPortrait, setIsPortrait] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
   const { user } = useAuth();
   // Estados
   const [levels, setLevels] = useState([]);
@@ -221,6 +223,29 @@ export default function Teste({ rows = 11, cols = 11 }) {
     const currentLevel = levels[currentLevelIdx]?.level;
 
     await savePartialProgress(userId, currentLevel, currentState, token);
+  };
+
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault(); // previne o prompt automático do navegador
+      setDeferredPrompt(e); // guarda o evento
+      setShowInstallButton(true); // mostra botão customizado
+    };
+
+    window.addEventListener("beforeinstallprompt", handler);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handler);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt(); // mostra o prompt de instalação
+    const choiceResult = await deferredPrompt.userChoice;
+    console.log("Resultado do install:", choiceResult.outcome);
+    setDeferredPrompt(null); // limpa após usar
+    setShowInstallButton(false); // esconde botão
   };
 
   useEffect(() => {
@@ -428,10 +453,30 @@ export default function Teste({ rows = 11, cols = 11 }) {
 
   return (
     <>
+      {showInstallButton && (
+        <button
+          onClick={handleInstallClick}
+          className="install-pwa-button"
+          style={{
+            position: "fixed",
+            top: 10,
+            left: 10,
+            zIndex: 9999,
+            padding: "8px 12px",
+            backgroundColor: "#0e770e",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+          }}
+        >
+          Install
+        </button>
+      )}
+
       {isPortrait && (
         <div className="rotate-overlay">
           <div className="rotate-box">
-            <p>Para uma melhor experiência, gire o celular 📱</p>
+            <p>Para uma melhor experiência, gire o celular</p>
           </div>
         </div>
       )}
