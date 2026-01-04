@@ -335,10 +335,5 @@ body,
     padding: 1rem;
   }
 
-  /* Esconde o resto do jogo */
-  .main-crossword,
-  .header-crossword,
-  .footer-crossword {
-    display: none !important;
-  }
+
 }
