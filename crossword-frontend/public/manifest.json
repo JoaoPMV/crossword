@@ -2,7 +2,7 @@
   "name": "Crossword Game",
   "short_name": "Crossword",
   "start_url": "/",
-  "orientation": "any",
+  "orientation": "landscape",
   "background_color": "#000000",
   "theme_color": "#0e770e",
   "icons": [
