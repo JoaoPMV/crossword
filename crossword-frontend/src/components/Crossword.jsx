@@ -121,6 +121,7 @@ function placeWordsIntoGrid(rows, cols, words) {
 
 export default function Teste({ rows = 11, cols = 11 }) {
   const [isPortrait, setIsPortrait] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
   const { user } = useAuth();
@@ -295,6 +296,13 @@ export default function Teste({ rows = 11, cols = 11 }) {
   }, [rows, cols, navigate]);
 
   useEffect(() => {
+    const checkScreenSize = () => setIsSmallScreen(window.innerWidth < 780);
+    checkScreenSize(); // verifica ao montar
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  useEffect(() => {
     const loadProgress = async () => {
       const token = localStorage.getItem("authToken");
       const userId = getUserId();
@@ -424,6 +432,26 @@ export default function Teste({ rows = 11, cols = 11 }) {
       }
     }
   };
+
+  if (isSmallScreen) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          textAlign: "center",
+          padding: "1rem",
+          fontSize: "1.5rem",
+          color: "white",
+          backgroundColor: "#0e770e",
+        }}
+      >
+        Por favor, gire o dispositivo para jogar em modo paisagem (landscape)
+      </div>
+    );
+  }
 
   return (
     <>
