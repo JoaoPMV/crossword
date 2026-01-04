@@ -137,7 +137,7 @@ export default function Teste({ rows = 11, cols = 11 }) {
   const [showHowToPlay, setShowHowToPlay] = useState(false);
 
   const inputRefs = useRef([]);
-  const congratsAudioRef = useRef(new Audio("./audios/congratulation.mp3"));
+  const congratsAudioRef = useRef(new Audio("/audios/congratulation.mp3"));
   const audioRef = useRef(null); // Inicializa a referência para o <audio>
 
   // Função moveFocus para mover o foco entre células
