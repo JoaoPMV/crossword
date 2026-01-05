@@ -138,7 +138,7 @@ export default function Teste({ rows = 11, cols = 11 }) {
 
   const inputRefs = useRef([]);
   const congratsAudioRef = useRef(new Audio("/audios/congratulation.mp3"));
-  const audioRef = useRef(null); // Inicializa a referência para o <audio>
+  const audioRef = useRef(null);
 
   // Função moveFocus para mover o foco entre células
   const moveFocus = (currentIdx, directionCallback) => {
@@ -150,15 +150,14 @@ export default function Teste({ rows = 11, cols = 11 }) {
 
       // Verifica limites da grade
       if (nextIndex < 0 || nextIndex >= gridCells.length) {
-        return; // Sai da função caso o índice esteja fora dos limites
+        return;
       }
 
-      // Verifica se a célula é interativa e NÃO está correta
       if (
         gridCells[nextIndex]?.solution !== null &&
         gridCells[nextIndex]?.status !== "correct"
       ) {
-        inputRefs.current[nextIndex]?.focus(); // Move o foco para o próximo input correto
+        inputRefs.current[nextIndex]?.focus();
         return;
       }
     }
